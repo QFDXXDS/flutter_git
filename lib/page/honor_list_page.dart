@@ -1,0 +1,44 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_git/common/utile/navigator_utils.dart';
+import 'package:flutter_git/common/utile/Common_utils.dart';
+import 'package:flutter_git/widget/repos_item.dart';
+
+class HonorListPage extends StatefulWidget {
+
+  final List list;
+
+  HonorListPage(this.list);
+
+  @override
+  _HonorListPageState createState() => _HonorListPageState();
+}
+
+class _HonorListPageState extends State<HonorListPage> {
+  _renderItem(item) {
+    ReposViewModel reposViewModel = ReposViewModel.fromMap(item);
+    return new ReposItem(reposViewModel, onPressed: () {
+      NavigatorUtils.goReposDetail(
+          context, reposViewModel.ownerName, reposViewModel.repositoryName);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+          title: new Text(
+            CommonUtils
+                .getLocale(context)
+                .user_tab_honor,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return _renderItem(widget.list[index]);
+        },
+        itemCount: widget.list.length,
+      ),);
+  }
+}
